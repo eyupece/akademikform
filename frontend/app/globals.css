@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* TipTap Editor Yazı Renkleri - Siyah */
+.ProseMirror {
+  color: #000000 !important;
+}
+
+.ProseMirror p {
+  color: #000000 !important;
+}
+
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3,
+.ProseMirror h4,
+.ProseMirror h5,
+.ProseMirror h6 {
+  color: #000000 !important;
+}
+
+.ProseMirror li {
+  color: #000000 !important;
+}
+
+.ProseMirror strong {
+  color: #000000 !important;
+}
+
+.ProseMirror em {
+  color: #000000 !important;
+}

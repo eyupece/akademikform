@@ -1,0 +1,70 @@
+---
+description: AI Destekli Akademik Doküman Editörü için Cursor kuralları
+globs: 
+alwaysApply: true
+---
+
+# Cursor Proje Kuralları
+
+## Genel Kurallar
+- Türkçe karakter kullanımı kodda olmamalı (değişken/fonksiyon isimleri için).
+- README.md ve dokümantasyon dosyaları **daima güncel tutulmalı**.
+- Hassas bilgiler (API anahtarları, şifreler) kodda bulunmamalı → `.env`.
+- Kod tekrarından kaçınılmalı (DRY).
+- Hata mesajları kullanıcı dostu ve anlaşılır olmalı.
+- MVP önceliklidir, gereksiz optimizasyona girilmemeli.
+
+## Git & Versiyon Kontrolü
+- Commit mesajları **kısa, açıklayıcı ve atomic** olmalı.  
+  Örn:  
+  - `feat: yeni proje oluşturma ekranı`  
+  - `fix: export sırasında boş alan hatası giderildi`
+- Commit dili: Türkçe olabilir (ama kısa ve net).
+- Yeni özellikler için `feature/ozellik-adi` branch açılmalı.
+- `main` branch’e direkt push yapılmamalı, merge request kullanılmalı.
+
+## Kod Yazım Kuralları
+- Değişken ve fonksiyon isimleri açıklayıcı olmalı ve ingilzice olmalı.
+- Fonksiyonlar **tek bir iş yapmalı**.
+- Kod temiz ve düzenli olmalı, gereksiz yorum eklenmemeli.
+- İç içe 3’ten fazla döngü/koşul kullanılmamalı.
+- Frontend → küçük, tek sorumlu componentler.  
+- Backend → RESTful endpoint yapısına sadık kalmalı.
+
+## Görev Takibi
+- [TASKS.md](.github/TASKS.md) dosyası sürekli takip edilmeli.
+- Görevler tamamlandıkça yanına **x** eklenerek işaretlenmeli.
+- Yeni görev çıktığında TASKS.md güncellenmeli.
+- Milestone’lar sonunda görevler gözden geçirilmeli.
+
+## Güvenlik
+- API anahtarları `.env` dosyasında saklanmalı.
+- Kullanıcı girişleri mutlaka validate edilmeli.
+- Güvenlik güncellemeleri takip edilmeli (framework & kütüphaneler).
+
+## Derleme & Deploy
+- Derleme/test hataları giderilmeden merge yapılmamalı.
+- Deployment:  
+  - Frontend → Vercel  
+  - Backend → Railway/Render  
+  - Veritabanı & Depolama → Supabase  
+
+## Dokümantasyon
+- [README.md](README.md) güncel ve anlaşılır olmalı.
+- API endpoint’leri `API_Contract.md` içinde belgelenmeli.
+- Veritabanı şeması `DB_Schema.md` içinde tutulmalı.
+- Kurulum adımları açık ve net yazılmalı.
+- Dokümantasyon **Türkçe** olmalı.
+
+## Workflow / Vibe
+workflow:
+  gelisim_sirasi:
+    - "1) Frontend mock API ile bitir (UI ve state akışları çalışsın)"
+    - "2) Mock sırasında kullanılan JSON formatlarını API_Contract.md dosyasına geçir"
+    - "3) Backend (FastAPI + Supabase) contract'a göre yazılır"
+    - "4) Frontend mock çağrıları backend endpointlerine bağlanır"
+  calisma_sekli:
+    - "Önce iskelet çıkar, sonra detay ekle"
+    - "MVP bittiğinde refactor yapılabilir"
+    - "Her commit küçük ve atomic olsun"
+- WORKFLOW.md dosyasında detaylı hâli var.
