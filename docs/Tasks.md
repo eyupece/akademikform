@@ -10,17 +10,17 @@ Zaman tanımları:
 ## 🎨 Frontend (Next.js + TipTap + Tailwind + shadcn/ui)
 
 ### Kısa vade (MVP)
-- [ ] Proje iskeleti (Next.js App Router, TS, Tailwind, shadcn/ui kurulumu)
-- [ ] Temel sayfalar: `/login`, `/dashboard`, `/editor/[projectId]`
-- [ ] TipTap entegrasyonu (StarterKit) ve **Split View**
-- [ ] Inline diff görselleştirme (diff-match-patch)
+- [x] Proje iskeleti (Next.js App Router, TS, Tailwind, shadcn/ui kurulumu)
+- [x] Temel sayfalar: `/login`, `/dashboard`, `/editor/[projectId]`
+- [x] TipTap entegrasyonu (StarterKit) ve **Split View**
+- [x] Inline diff görselleştirme (diff-match-patch)
 - [ ] Bölüm durum rozetleri & ilerleme barı (tamamlanan/total)
 - [ ] Revizyon Geçmişi: Drawer/Modal UI (mock veri)
-- [ ] Export Paneli (DOCX/PDF butonları) – UI
+- [x] Export Paneli (DOCX/PDF butonları) – UI
 
 ### Orta vade
-- [ ] API bağlama: mock → gerçek FastAPI endpoint’leri
-- [ ] Hata/skeleton/loader durumları, toast bildirimler
+- [ ] API bağlama: mock → gerçek FastAPI endpoint'leri
+- [x] Hata/skeleton/loader durumları, toast bildirimler
 - [ ] Form validasyonları (react-hook-form + zod)
 - [ ] Editor performans iyileştirmeleri (uzun metin, tipografi)
 - [ ] Erişilebilirlik (a11y) ve klavye kısayolları
@@ -152,7 +152,7 @@ Zaman tanımları:
 
 ### Kısa vade (MVP)
 - [ ] Kritik akışlar için smoke test (create → generate → accept → export)
-- [ ] Tip güvenliği (TS) ve linter/formatter (ESLint, Prettier)
+- [x] Tip güvenliği (TS) ve linter/formatter (ESLint, Prettier)
 - [ ] Backend için basit unit (generate, accept)
 
 ### Orta vade
@@ -169,8 +169,8 @@ Zaman tanımları:
 ## 🗂️ Dokümantasyon
 
 ### Kısa vade (MVP)
-- [ ] README (teknik mimari, kurulum)
-- [ ] `MVP_UserStories_Ekranlar.md`
+- [x] README (teknik mimari, kurulum)
+- [x] `MVP_UserStories_Ekranlar.md`
 - [ ] `API_Contract.md` (endpointler ve örnek gövdeler)
 - [ ] `DB_Schema.md` (tablolar ve ilişkiler)
 
@@ -194,8 +194,8 @@ Zaman tanımları:
 
 ## 🎯 Başarı Kriterleri (MVP)
 
-- [ ] Kullanıcı giriş yapıp proje oluşturabiliyor
-- [ ] Editor’de taslak girip **AI önerisi** alabiliyor
-- [ ] Kabul/Revize akışı çalışıyor, revizyon geçmişi listeleniyor
+- [x] Kullanıcı giriş yapıp proje oluşturabiliyor (mock auth)
+- [x] Editor'de taslak girip **AI önerisi** alabiliyor (mock API)
+- [x] Kabul/Revize akışı çalışıyor, revizyon geçmişi listeleniyor (UI hazır, backend bekleniyor)
 - [ ] Export ile DOCX ve PDF indirilebiliyor (signed URL)
-- [ ] Veriler Supabase’te; API FastAPI üzerinden güvenli akıyor
+- [ ] Veriler Supabase'te; API FastAPI üzerinden güvenli akıyor

@@ -64,3 +64,5 @@ frontend/
 - Auth sistemi basitleştirilmiş (MVP için)
 
 
+
+
