@@ -14,6 +14,11 @@ Zaman tanımları:
 - [x] Temel sayfalar: `/login`, `/dashboard`, `/editor/[projectId]`
 - [x] TipTap entegrasyonu (StarterKit) ve **Split View**
 - [x] Inline diff görselleştirme (diff-match-patch)
+- [x] Word/Character counter (kelime ve karakter sayacı)
+- [x] Inline title editing (proje başlığı düzenleme - pencil icon)
+- [x] Writing style input (yazım tarzı için serbest metin girişi)
+- [x] Copilot-style AI action popup (Accept/Reject/Revise + inline revise input)
+- [x] Modern toast notification system (bottom-left stacked toasts)
 - [ ] Bölüm durum rozetleri & ilerleme barı (tamamlanan/total)
 - [ ] Revizyon Geçmişi: Drawer/Modal UI (mock veri)
 - [x] Export Paneli (DOCX/PDF butonları) – UI
