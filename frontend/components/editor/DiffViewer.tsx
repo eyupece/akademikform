@@ -44,7 +44,7 @@ export default function DiffViewer({ original, modified }: DiffViewerProps) {
       if (part.type === -1) {
         return (
           <div key={key} className="flex">
-            <div className="w-8 flex-shrink-0 bg-red-100 text-red-600 text-xs text-center py-0.5 border-r border-red-200">
+            <div className="w-8 flex-shrink-0 bg-red-50 text-brand-danger text-xs text-center py-0.5 border-r border-red-100">
               -
             </div>
             <div className="flex-1 bg-red-50 px-3 py-0.5 font-mono text-sm">
@@ -58,7 +58,7 @@ export default function DiffViewer({ original, modified }: DiffViewerProps) {
       if (part.type === 1) {
         return (
           <div key={key} className="flex">
-            <div className="w-8 flex-shrink-0 bg-green-100 text-green-600 text-xs text-center py-0.5 border-r border-green-200">
+            <div className="w-8 flex-shrink-0 bg-green-50 text-brand-success text-xs text-center py-0.5 border-r border-green-100">
               +
             </div>
             <div className="flex-1 bg-green-50 px-3 py-0.5 font-mono text-sm">
@@ -83,17 +83,20 @@ export default function DiffViewer({ original, modified }: DiffViewerProps) {
   };
 
   return (
-    <div className="border border-gray-200 rounded-lg overflow-hidden">
-      {/* Header */}
-      <div className="bg-gray-100 px-4 py-2 border-b border-gray-200">
-        <div className="flex items-center gap-4 text-xs">
-          <span className="flex items-center gap-1">
-            <span className="w-3 h-3 bg-red-200 rounded"></span>
-            <span className="text-gray-700">Silinen</span>
+    <div className="border-2 border-gray-200 rounded-xl overflow-hidden shadow-sm">
+      {/* Header - Modern */}
+      <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b-2 border-gray-200">
+        <div className="flex items-center gap-6 text-sm">
+          <span className="flex items-center gap-2">
+            <span className="w-4 h-4 bg-gradient-to-br from-red-400 to-red-600 rounded-md shadow-sm"></span>
+            <span className="text-gray-900 font-semibold">Silinen</span>
           </span>
-          <span className="flex items-center gap-1">
-            <span className="w-3 h-3 bg-green-200 rounded"></span>
-            <span className="text-gray-700">Eklenen</span>
+          <span className="flex items-center gap-2">
+            <span className="w-4 h-4 bg-gradient-to-br from-green-400 to-green-600 rounded-md shadow-sm"></span>
+            <span className="text-gray-900 font-semibold">Eklenen</span>
+          </span>
+          <span className="ml-auto text-xs text-gray-500 font-medium">
+            {diffs.filter(d => d.type !== 0).length} değişiklik
           </span>
         </div>
       </div>

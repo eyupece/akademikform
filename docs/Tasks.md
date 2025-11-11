@@ -14,12 +14,19 @@ Zaman tanımları:
 - [x] Temel sayfalar: `/login`, `/dashboard`, `/editor/[projectId]`
 - [x] TipTap entegrasyonu (StarterKit) ve **Split View**
 - [x] Inline diff görselleştirme (diff-match-patch)
-- [x] Word/Character counter (kelime ve karakter sayacı)
-- [x] Inline title editing (proje başlığı düzenleme - pencil icon)
-- [x] Writing style input (yazım tarzı için serbest metin girişi)
-- [x] Copilot-style AI action popup (Accept/Reject/Revise + inline revise input)
-- [x] Modern toast notification system (bottom-left stacked toasts)
-- [ ] Bölüm durum rozetleri & ilerleme barı (tamamlanan/total)
+- [x] **Modern UI/UX Design System** (Figma-inspired gradient, glassmorphism)
+- [x] **Reusable UI Components** (Button, Card, Badge) with variants
+- [x] **Design System Entegrasyonu** (Tailwind config: colors, typography, shadows, border-radius)
+- [x] **Split-screen Auth Layout** (Login/Register modern tasarım)
+- [x] **Modern Dashboard** (Gradient header, animated backgrounds, hover effects)
+- [x] **Modern Editor UI** (Gradient header, sidebar navigation, section cards)
+- [x] **AI Action Components** (Popup, inline actions, loading states)
+- [x] **Toast Notification System** (Stacked, animated, bottom-left positioning)
+- [x] **SplitView & DiffViewer** modern tasarımı (Gradient icons, badges)
+- [x] **Bölüm durum rozetleri & ilerleme barı** (Boş/Taslak/AI Önerildi/Tamamlandı)
+- [x] **Dashboard ilerleme barı** (Proje tamamlanma yüzdesi)
+- [x] **Editor toplam ilerleme göstergesi** (Header'da progress bar)
+- [x] **Sidebar bölüm durum rozetleri** (Her bölümün durumu görünür)
 - [ ] Revizyon Geçmişi: Drawer/Modal UI (mock veri)
 - [x] Export Paneli (DOCX/PDF butonları) – UI
 
@@ -29,6 +36,7 @@ Zaman tanımları:
 - [ ] Form validasyonları (react-hook-form + zod)
 - [ ] Editor performans iyileştirmeleri (uzun metin, tipografi)
 - [ ] Erişilebilirlik (a11y) ve klavye kısayolları
+- [ ] Dark mode desteği
 
 ### Uzun vade
 - [ ] Versiyonlar arası karşılaştırma ekranı (history diff)
@@ -158,6 +166,7 @@ Zaman tanımları:
 ### Kısa vade (MVP)
 - [ ] Kritik akışlar için smoke test (create → generate → accept → export)
 - [x] Tip güvenliği (TS) ve linter/formatter (ESLint, Prettier)
+- [x] **Mock API unique ID fix** (timestamp + random string)
 - [ ] Backend için basit unit (generate, accept)
 
 ### Orta vade
@@ -176,6 +185,8 @@ Zaman tanımları:
 ### Kısa vade (MVP)
 - [x] README (teknik mimari, kurulum)
 - [x] `MVP_UserStories_Ekranlar.md`
+- [x] **Design System Documentation** (Figma integration, color palette, typography)
+- [x] **Component Library** (Button, Card, Badge kullanım örnekleri)
 - [ ] `API_Contract.md` (endpointler ve örnek gövdeler)
 - [ ] `DB_Schema.md` (tablolar ve ilişkiler)
 
@@ -191,9 +202,10 @@ Zaman tanımları:
 
 ## 📍 Milestones
 
-- **M1 (Hafta 2)**: FE mock tamam + DB şema kuruldu + BE stub endpointler
-- **M2 (Hafta 3)**: HF entegrasyonu + gerçek CRUD + revizyon kaydı
-- **M3 (Hafta 4)**: Export (DOCX/PDF) + prod deploy + smoke testler
+- **M1 (Hafta 2)**: ✅ FE mock tamam + Modern UI/UX Design System + Component Library
+- **M2 (Hafta 3)**: DB şema kuruldu + BE stub endpointler + HF entegrasyonu
+- **M3 (Hafta 4)**: Gerçek CRUD + revizyon kaydı + Export (DOCX/PDF)
+- **M4 (Hafta 5)**: Prod deploy + smoke testler + dokümantasyon
 
 ---
 
@@ -202,5 +214,8 @@ Zaman tanımları:
 - [x] Kullanıcı giriş yapıp proje oluşturabiliyor (mock auth)
 - [x] Editor'de taslak girip **AI önerisi** alabiliyor (mock API)
 - [x] Kabul/Revize akışı çalışıyor, revizyon geçmişi listeleniyor (UI hazır, backend bekleniyor)
+- [x] **Modern, tutarlı UI/UX** tüm sayfalarda (Figma benzeri tasarım)
+- [x] **Responsive design** ve animasyonlar çalışıyor
+- [x] **Component library** hazır ve tekrar kullanılabilir
 - [ ] Export ile DOCX ve PDF indirilebiliyor (signed URL)
 - [ ] Veriler Supabase'te; API FastAPI üzerinden güvenli akıyor

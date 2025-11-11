@@ -86,23 +86,27 @@ export const mockApi = {
     const template = templates.find((t) => t.id === templateId);
     if (!template) throw new Error("Template not found");
 
+    // Benzersiz ID için timestamp + random sayı
+    const projectId = `project-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    const timestamp = new Date().toISOString();
+
     const newProject: Project = {
-      id: `project-${Date.now()}`,
+      id: projectId,
       user_id: "user123",
       template_id: templateId,
       template_name: template.name,
       title,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
+      created_at: timestamp,
+      updated_at: timestamp,
       sections: template.sections.map((ts, idx) => ({
-        id: `section-${Date.now()}-${idx}`,
-        project_id: `project-${Date.now()}`,
+        id: `section-${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${idx}`,
+        project_id: projectId,
         title: ts.title,
         order: ts.order,
         draft_content: "",
         final_content: null,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
+        created_at: timestamp,
+        updated_at: timestamp,
       })),
     };
 
@@ -139,7 +143,7 @@ export const mockApi = {
     // Revizyon ekle
     if (!section.revisions) section.revisions = [];
     section.revisions.push({
-      id: `rev-${Date.now()}`,
+      id: `rev-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       section_id: sectionId,
       content,
       revision_number: section.revisions.length + 1,

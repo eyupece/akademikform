@@ -30,7 +30,7 @@ export default function SectionList({
                 w-full text-left px-3 py-2 rounded-lg text-sm transition
                 ${
                   isActive
-                    ? "bg-indigo-50 text-indigo-700 font-medium"
+                    ? "bg-shade-primary text-brand-primary font-medium"
                     : "text-gray-700 hover:bg-gray-50"
                 }
               `}
@@ -41,10 +41,10 @@ export default function SectionList({
                   <span className="truncate">{section.title}</span>
                 </span>
                 {isCompleted && (
-                  <span className="text-green-600 text-xs">✓</span>
+                  <span className="text-brand-success text-xs">✓</span>
                 )}
                 {!isCompleted && hasContent && (
-                  <span className="text-yellow-600 text-xs">●</span>
+                  <span className="text-brand-warning text-xs">●</span>
                 )}
               </div>
             </button>
@@ -57,7 +57,7 @@ export default function SectionList({
         <div className="text-xs text-gray-600 mb-2">İlerleme</div>
         <div className="w-full bg-gray-200 rounded-full h-2">
           <div
-            className="bg-indigo-600 h-2 rounded-full transition-all"
+            className="bg-brand-primary h-2 rounded-full transition-all"
             style={{
               width: `${
                 (sections.filter((s) => s.final_content !== null).length /

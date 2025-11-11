@@ -36,7 +36,7 @@ export default function AIActionPopup({
             <button
               onClick={onAccept}
               disabled={loading}
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-brand-success text-white rounded-lg hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -47,7 +47,7 @@ export default function AIActionPopup({
             <button
               onClick={onReject}
               disabled={loading}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-brand-danger text-white rounded-lg hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -58,7 +58,7 @@ export default function AIActionPopup({
             <button
               onClick={() => setShowReviseInput(true)}
               disabled={loading}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-brand-warning text-white rounded-lg hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -86,7 +86,7 @@ export default function AIActionPopup({
               value={revisePrompt}
               onChange={(e) => setRevisePrompt(e.target.value)}
               placeholder="Örn: Daha basit yaz, Daha teknik yap"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900 placeholder-gray-400"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary text-gray-900 placeholder-gray-400"
               autoFocus
               disabled={loading}
             />
@@ -94,7 +94,7 @@ export default function AIActionPopup({
               <button
                 type="submit"
                 disabled={loading || !revisePrompt.trim()}
-                className="flex-1 px-3 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+                className="flex-1 px-3 py-2 bg-brand-primary text-white rounded-lg hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
               >
                 {loading ? "Revize ediliyor..." : "Revize Et"}
               </button>
