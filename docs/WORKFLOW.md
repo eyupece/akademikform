@@ -8,7 +8,7 @@
    - UI %90 çalışır hale gelir  
 
 2. **API Contract**  
-   - Mock’ta kullanılan request/response body’leri `API_Contract.md` dosyasına sabitle  
+   - Mock’ta kullanılan request/response body’leri `API_Contrtac.md` dosyasına sabitle  
    - Endpoint isimleri ve yanıt şekilleri kesinleşir  
 
 3. **Backend (FastAPI + Supabase)**  
