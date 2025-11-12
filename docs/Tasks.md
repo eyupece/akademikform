@@ -51,15 +51,17 @@ Zaman tanımları:
 ### Kısa vade (MVP)
 - [ ] FastAPI iskeleti + temel health endpoint
 - [ ] Endpoint sözleşmesi (OpenAPI): `/projects`, `/sections`, `/export`, `/generate`
-- [ ] `/sections/:id/generate` → HF proxy (stub yanıt)
+- [ ] `/sections/:id/generate` → Replicate API call (stub yanıt)
 - [ ] `/sections/:id/accept`, `/sections/:id/revise` (iş akışı stub)
 - [ ] `/sections/:id/revisions` (mock data)
+- [ ] Mock veri ile test (DB olmadan çalışabilir)
 
 ### Orta vade
-- [ ] HF gerçek entegrasyonu + post-processing (kelime sınırı)
-- [ ] Revizyon kayıtları (DB’ye yazma, snapshot_text/diff)
+- [ ] Replicate gerçek entegrasyonu + post-processing (kelime sınırı)
+- [ ] Revizyon kayıtları (DB'ye yazma, snapshot_text/diff)
 - [ ] Hata yönetimi ve rate limit
 - [ ] Export servisleri ile entegrasyon (DOCX/PDF)
+- [ ] DB entegrasyonu (Supabase)
 
 ### Uzun vade
 - [ ] Queue/Job sistemi (export ve uzun istekler için)
@@ -68,10 +70,11 @@ Zaman tanımları:
 
 ---
 
-## 🤖 LLM & Prompting (Hugging Face Inference API)
+## 🤖 LLM & Prompting (Replicate API)
 
 ### Kısa vade (MVP)
-- [ ] Model seçimi (Türkçe destekli) ve ilk benchmark
+- [ ] Model seçimi ve benchmark (Llama 3, Mistral, Qwen)
+- [ ] Replicate API entegrasyonu (replicate-python SDK)
 - [ ] Bölüm bazlı **base prompt** şablonu (SYSTEM + CONTEXT + TASK)
 - [ ] Stil/ton parametreleri (kısa, akademik, teknik) desteği
 - [ ] Minimum/maximum kelime kontrolü (post-processing)
@@ -80,11 +83,13 @@ Zaman tanımları:
 - [ ] Bölümler arası tutarlılık kontrolleri (Amaç ↔ Yöntem)
 - [ ] Revize isteği için ek talimat alanı (instruction tuning benzeri)
 - [ ] Yanıt temizleme (HTML/etiket, whitespace, tekrar cümleler)
+- [ ] Kullanıcıya model seçeneği sunma (Llama vs Mistral vs Qwen)
 
 ### Uzun vade
-- [ ] Alternatif model A/B
+- [ ] Alternatif model A/B testing
 - [ ] Uzun metinler için parça-parça üretim (chunking/merge)
 - [ ] Prompt library (şablonlara göre otomasyon)
+- [ ] Custom model fine-tuning (Replicate'de kendi modelimiz)
 
 ---
 
@@ -150,8 +155,8 @@ Zaman tanımları:
 - [ ] Supabase: DB & Storage prod projeleri
 
 ### Orta vade
-- [ ] Ortam değişkenleri & gizli anahtar yönetimi (HF token, DB URL)
-- [ ] Temel gözlemlenebilirlik (request logları, LLM latency)
+- [ ] Ortam değişkenleri & gizli anahtar yönetimi (REPLICATE_API_TOKEN, DB URL)
+- [ ] Temel gözlemlenebilirlik (request logları, LLM latency, Replicate costs)
 - [ ] Basit CI (lint, typecheck, build)
 
 ### Uzun vade
@@ -183,12 +188,12 @@ Zaman tanımları:
 ## 🗂️ Dokümantasyon
 
 ### Kısa vade (MVP)
-- [x] README (teknik mimari, kurulum)
+- [x] README (teknik mimari, kurulum) - **Replicate entegrasyonuna güncellendi**
 - [x] `MVP_UserStories_Ekranlar.md`
 - [x] **Design System Documentation** (Figma integration, color palette, typography)
 - [x] **Component Library** (Button, Card, Badge kullanım örnekleri)
-- [ ] `API_Contract.md` (endpointler ve örnek gövdeler)
-- [ ] `DB_Schema.md` (tablolar ve ilişkiler)
+- [x] `API_Contract.md` (endpointler ve örnek gövdeler) - **Replicate ile oluşturuldu**
+- [ ] `DB_Schema.md` (tablolar ve ilişkiler) - **Arkadaşın yapacak**
 
 ### Orta vade
 - [ ] Geliştirici kılavuzu (yerel geliştirme, env, komutlar)
@@ -203,8 +208,8 @@ Zaman tanımları:
 ## 📍 Milestones
 
 - **M1 (Hafta 2)**: ✅ FE mock tamam + Modern UI/UX Design System + Component Library
-- **M2 (Hafta 3)**: DB şema kuruldu + BE stub endpointler + HF entegrasyonu
-- **M3 (Hafta 4)**: Gerçek CRUD + revizyon kaydı + Export (DOCX/PDF)
+- **M2 (Hafta 3)**: FastAPI + Replicate entegrasyonu + Mock veri ile test
+- **M3 (Hafta 4)**: DB kurulumu + Gerçek CRUD + Export (DOCX/PDF)
 - **M4 (Hafta 5)**: Prod deploy + smoke testler + dokümantasyon
 
 ---

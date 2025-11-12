@@ -1,7 +1,7 @@
 # 📄 Bitirme Projesi – AI Destekli Akademik Doküman Editörü  
 
 ## 🎯 Proje Amacı  
-Bu proje, kullanıcıların hazır şablonlar üzerinden akademik doküman hazırlamasını kolaylaştırmayı amaçlamaktadır. Kullanıcı, bölüm bazlı kısa taslaklar yazar ve Hugging Face üzerinde çalışan bir LLM (Large Language Model) aracılığıyla bu taslakları akademik bir dile dönüştürür.  
+Bu proje, kullanıcıların hazır şablonlar üzerinden akademik doküman hazırlamasını kolaylaştırmayı amaçlamaktadır. Kullanıcı, bölüm bazlı kısa taslaklar yazar ve **Replicate API** üzerinden erişilen LLM'ler (Llama, Mistral, Qwen gibi) aracılığıyla bu taslakları akademik bir dile dönüştürür.  
 
 Amaç, kullanıcıya **kontrolü kaybetmeden**, AI destekli düzenleme, revizyon ve export (DOCX / PDF) imkânı sağlamaktır.  
 
@@ -65,15 +65,16 @@ Amaç, kullanıcıya **kontrolü kaybetmeden**, AI destekli düzenleme, revizyon
   - **UI Kit**: Tailwind CSS + Shadcn/UI  
 
 - **Backend**: FastAPI (Python)  
-  - Hugging Face API entegrasyonu  
+  - **Replicate API** entegrasyonu  
   - Metin işleme (token/kelime kontrolü, post-processing)  
   - DOCX / PDF export  
   - Proje, bölüm ve revizyon yönetimi  
 
-- **LLM Entegrasyonu**: Hugging Face Inference API  
-  - REST çağrıları ile model kullanımı  
-  - Türkçe destekli LLM seçimi (örn. mT5, BLOOMZ, LLaMA2-7B-tuned)  
+- **LLM Entegrasyonu**: Replicate API ([replicate.com](https://replicate.com/))
+  - Tek satır kod ile model kullanımı (REST API)  
+  - Türkçe destekli LLM'ler:
   - Prompt şablonları backend'de oluşturulur, frontend'den gelen girdilere göre işlenir
+  - Automatic scaling ve pay-as-you-go fiyatlandırma
 
 - **Veritabanı**: Supabase (PostgreSQL)  
   - Tablolar: `projects`, `sections`, `revisions`, `export_jobs` (+ `users`)  
@@ -104,8 +105,9 @@ Amaç, kullanıcıya **kontrolü kaybetmeden**, AI destekli düzenleme, revizyon
 
 - **Deployment**:  
   - **Frontend**: Vercel  
-  - **Backend**: Railway / Render / AWS-GCP  
-  - **Veritabanı & Depolama**: Supabase Cloud  
+  - **Backend**: Railway / Render  
+  - **Veritabanı & Depolama**: Supabase Cloud
+  - **AI Models**: Replicate (automatic scaling, pay-per-use)  
 
 ---
 
