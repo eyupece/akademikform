@@ -27,6 +27,10 @@ Zaman tanımları:
 - [x] **Dashboard ilerleme barı** (Proje tamamlanma yüzdesi)
 - [x] **Editor toplam ilerleme göstergesi** (Header'da progress bar)
 - [x] **Sidebar bölüm durum rozetleri** (Her bölümün durumu görünür)
+- [x] **TÜBİTAK 2209-A Bölümleri Tamamlandı** (A-Genel Bilgiler, Özet, 1.Bilimsel Nitelik, 2.Yöntem, 3.Proje Yönetimi, 4.Yaygın Etki, 5.Diğer Konular, 6.Kaynakça)
+- [x] **Scroll & Layout İyileştirmeleri** (Çift scrollbar düzeltildi, sidebar spacing optimizasyonu)
+- [x] **Global Scale Ayarı** (%90 font-size, daha kompakt görünüm)
+- [x] **Kod temizliği** (Kullanılmayan componentler silindi: AIActionPopup, SectionList)
 - [ ] Revizyon Geçmişi: Drawer/Modal UI (mock veri)
 - [x] Export Paneli (DOCX/PDF butonları) – UI
 

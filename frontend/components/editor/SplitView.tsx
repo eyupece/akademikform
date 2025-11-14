@@ -53,7 +53,7 @@ export default function SplitView({
       {viewMode === "side-by-side" ? (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Sol: Kullanıcı Taslağı */}
-          <div className="bg-white rounded-2xl shadow-card border-2 border-gray-100 p-8 hover:shadow-xl transition-shadow duration-300">
+          <div className="bg-white rounded-2xl shadow-card border-2 border-gray-100 p-8 hover:shadow-xl transition-shadow duration-300 flex flex-col">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
@@ -69,15 +69,17 @@ export default function SplitView({
                 Orijinal
               </span>
             </div>
-            <EditorComponent
-              content={draft}
-              onChange={onDraftChange}
-              placeholder="Taslak metniniz..."
-            />
+            <div className="flex-1 overflow-y-auto max-h-[500px]">
+              <EditorComponent
+                content={draft}
+                onChange={onDraftChange}
+                placeholder="Taslak metniniz..."
+              />
+            </div>
           </div>
 
           {/* Sağ: AI Önerisi */}
-          <div className="bg-white rounded-2xl shadow-card border-2 border-brand-primary/20 p-8 hover:shadow-xl transition-shadow duration-300 relative overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-card border-2 border-brand-primary/20 p-8 hover:shadow-xl transition-shadow duration-300 relative overflow-hidden flex flex-col">
             {/* Gradient Background */}
             <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-brand-primary to-brand-secondary"></div>
             
@@ -96,12 +98,14 @@ export default function SplitView({
                 AI Düzenlemesi
               </span>
             </div>
-            <EditorComponent
-              content={suggestion}
-              onChange={() => {}}
-              placeholder="AI önerisi burada görünecek..."
-              readOnly={true}
-            />
+            <div className="flex-1 overflow-y-auto max-h-[500px]">
+              <EditorComponent
+                content={suggestion}
+                onChange={() => {}}
+                placeholder="AI önerisi burada görünecek..."
+                readOnly={true}
+              />
+            </div>
           </div>
         </div>
       ) : (

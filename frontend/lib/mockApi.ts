@@ -1,4 +1,4 @@
-import type { Project, Section, Revision, Template, AIGenerateResponse } from "@/types";
+import type { Project, Section, Revision, Template, AIGenerateResponse, WorkScheduleRow, RiskManagementRow, ResearchFacilityRow, WideImpactRow } from "@/types";
 
 // Mock Templates
 const templates: Template[] = [
@@ -9,38 +9,52 @@ const templates: Template[] = [
     sections: [
       {
         title: "Projenin Özeti",
+        order: 0, // Numarasız - A'nın altında
+        placeholder: "Projenizin özetini yazın (bilimsel nitelik, yöntem, proje yönetimi, yaygın etki)...",
+        min_words: 25,
+        max_words: 450,
+      },
+      {
+        title: "Araştırma Önerisinin Bilimsel Niteliği",
         order: 1,
-        placeholder: "Projenizin kısa özetini yazın...",
-        min_words: 150,
-        max_words: 300,
+        placeholder: "Bu bölüm 1.1 ve 1.2 alt bölümlerinden oluşur...",
+        min_words: 0, // Alt bölümler karakter bazlı
+        max_words: 0,
       },
       {
-        title: "Projenin Amacı",
+        title: "Yöntem",
         order: 2,
-        placeholder: "Projenizin ana amacını açıklayın...",
-        min_words: 200,
-        max_words: 400,
+        placeholder: "Araştırmada uygulanacak yöntem ve araştırma tekniklerinin, amaç ve hedeflere ulaşmaya ne düzeyde elverişli olduğu ilgili literatüre atıf yapılarak ortaya konulur. Yöntem bölümünün; araştırma tasarımı, bağımlı ve bağımsız değişkenler, istatistiksel yöntemler vb. unsurları içermesi gerekir...",
+        min_words: 0,
+        max_words: 0,
       },
       {
-        title: "Literatür Özeti",
+        title: "Proje Yönetimi",
         order: 3,
-        placeholder: "İlgili literatürü özetleyin...",
-        min_words: 300,
-        max_words: 600,
+        placeholder: "Bu bölüm 3.1, 3.2 ve 3.3 tablolarından oluşur...",
+        min_words: 0,
+        max_words: 0,
       },
       {
-        title: "Gereç ve Yöntem",
+        title: "Araştırma Önerisinin Yaygın Etkisi",
         order: 4,
-        placeholder: "Kullanılacak materyal ve yöntemi açıklayın...",
-        min_words: 200,
-        max_words: 500,
+        placeholder: "Bu bölüm çıktı kategorilerinden oluşur...",
+        min_words: 0,
+        max_words: 0,
       },
       {
-        title: "Beklenen Sonuçlar",
+        title: "Belirtmek İstediğiniz Diğer Konular",
         order: 5,
-        placeholder: "Projeden beklediğiniz sonuçları yazın...",
-        min_words: 150,
-        max_words: 300,
+        placeholder: "Sadece araştırma önerisinin değerlendirilmesine katkı sağlayabilecek bilgi/veri eklenebilir...",
+        min_words: 0,
+        max_words: 0,
+      },
+      {
+        title: "Kaynakça",
+        order: 6,
+        placeholder: "Araştırma önerisinde kullandığınız kaynakları yazın...",
+        min_words: 0,
+        max_words: 0,
       },
     ],
   },
@@ -56,12 +70,68 @@ const mockProjects: Project[] = [
     title: "Yapay Zeka ile Akademik Metin Analizi",
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
+    general_info: {
+      applicant_name: "Ahmet Yılmaz",
+      research_title: "Yapay Zeka ile Akademik Metin Analizi",
+      advisor_name: "Prof. Dr. Ayşe Demir",
+      institution: "İstanbul Teknik Üniversitesi",
+    },
+    keywords: "yapay zeka, akademik metin, doğal dil işleme",
+    scientific_merit: {
+      importance_and_quality: "Bu araştırma, yapay zeka alanında önemli bir boşluğu doldurmayı hedeflemektedir...",
+      aims_and_objectives: "Bu projenin temel amacı, akademik metin analizini otomatikleştirmektir...",
+    },
+    project_management: {
+      work_schedule: [
+        {
+          id: "ws-1",
+          date_range: "01/09/2024 - 30/11/2024",
+          activities: "Literatür taraması ve araştırma planının detaylandırılması",
+          responsible: "Proje ekibi tüm üyeleri",
+          success_criteria_contribution: "Kapsamlı literatür raporu hazırlanması (%15)",
+        },
+      ],
+      risk_management: [
+        {
+          id: "rm-1",
+          risk: "Veri toplama sürecinde katılımcı bulunamaması",
+          countermeasure: "Alternatif veri kaynakları belirlenmesi ve online anket sistemleri kullanımı",
+        },
+      ],
+      research_facilities: [
+        {
+          id: "rf-1",
+          equipment_type_model: "Dell Precision 5820 Tower (Intel Xeon, 64GB RAM)",
+          project_usage: "Veri analizi ve yapay zeka modeli eğitimi",
+        },
+      ],
+    },
+    wide_impact: [
+      {
+        id: "wi-1",
+        category: "Bilimsel/Akademik Çıktılar",
+        category_description: "(Ulusal/Uluslararası Makale, Kitap Bölümü, Kitap, Bildiri vb.)",
+        outputs: "",
+      },
+      {
+        id: "wi-2",
+        category: "Ekonomik/Ticari/Sosyal Çıktılar",
+        category_description: "(Ürün, Prototip, Patent, Faydalı Model, Tescil, Görsel/İşitsel Arşiv, Envanter/Veri Tabanı, Çalıştay, Eğitim, Bilimsel Etkinlik vb.)",
+        outputs: "",
+      },
+      {
+        id: "wi-3",
+        category: "Yeni Proje Oluşturmasına Yönelik Çıktılar",
+        category_description: "(Ulusal/Uluslararası Yeni Proje vb.)",
+        outputs: "",
+      },
+    ],
     sections: [
       {
         id: "s1",
         project_id: "1",
         title: "Projenin Özeti",
-        order: 1,
+        order: 0,
         draft_content: "Bu proje yapay zeka kullanarak akademik metinleri analiz etmeyi amaçlamaktadır.",
         final_content: null,
         created_at: new Date().toISOString(),
@@ -98,6 +168,62 @@ export const mockApi = {
       title,
       created_at: timestamp,
       updated_at: timestamp,
+      general_info: {
+        applicant_name: "",
+        research_title: "",
+        advisor_name: "",
+        institution: "",
+      },
+      keywords: "",
+      scientific_merit: {
+        importance_and_quality: "",
+        aims_and_objectives: "",
+      },
+      project_management: {
+        work_schedule: [
+          {
+            id: "ws-1",
+            date_range: "",
+            activities: "",
+            responsible: "",
+            success_criteria_contribution: "",
+          },
+        ],
+        risk_management: [
+          {
+            id: "rm-1",
+            risk: "",
+            countermeasure: "",
+          },
+        ],
+        research_facilities: [
+          {
+            id: "rf-1",
+            equipment_type_model: "",
+            project_usage: "",
+          },
+        ],
+      },
+      wide_impact: [
+        {
+          id: "wi-1",
+          category: "Bilimsel/Akademik Çıktılar",
+          category_description: "(Ulusal/Uluslararası Makale, Kitap Bölümü, Kitap, Bildiri vb.)",
+          outputs: "",
+        },
+        {
+          id: "wi-2",
+          category: "Ekonomik/Ticari/Sosyal Çıktılar",
+          category_description: "(Ürün, Prototip, Patent, Faydalı Model, Tescil, Görsel/İşitsel Arşiv, Envanter/Veri Tabanı, Çalıştay, Eğitim, Bilimsel Etkinlik vb.)",
+          outputs: "",
+        },
+        {
+          id: "wi-3",
+          category: "Yeni Proje Oluşturmasına Yönelik Çıktılar",
+          category_description: "(Ulusal/Uluslararası Yeni Proje vb.)",
+          outputs: "",
+        },
+      ],
       sections: template.sections.map((ts, idx) => ({
         id: `section-${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${idx}`,
         project_id: projectId,
