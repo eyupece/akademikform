@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { mockApi } from "@/lib/mockApi";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -15,11 +16,17 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
 
-    // Mock login - gerçek auth sonra eklenecek
-    setTimeout(() => {
-      console.log("Login:", { email, password });
+    try {
+      const response = await mockApi.login(email, password);
+      console.log("Login successful:", response);
+      // TODO: Token'ı localStorage'a kaydet
       router.push("/dashboard");
-    }, 1000);
+    } catch (error) {
+      console.error("Login error:", error);
+      // TODO: Hata durumunda kullanıcıya bilgi ver
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -141,11 +148,11 @@ export default function LoginPage() {
                   )}
                 </button>
                      </div>
-                     <div className="text-right">
-                       <Link href="#" className="text-sm text-brand-primary hover:text-brand-secondary font-medium transition-colors" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                         Şifrenizi mi unuttunuz?
-                       </Link>
-                     </div>
+                    <div className="text-right">
+                      <Link href="/forgot-password" className="text-sm text-brand-primary hover:text-brand-secondary font-medium transition-colors" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                        Şifrenizi mi unuttunuz?
+                      </Link>
+                    </div>
                    </div>
 
                    {/* Login Button */}

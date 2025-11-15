@@ -143,6 +143,59 @@ const mockProjects: Project[] = [
 
 // Mock API functions
 export const mockApi = {
+  // Authentication
+  register: async (email: string, password: string, fullName: string) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    return {
+      user_id: `user-${Date.now()}`,
+      email,
+      full_name: fullName,
+      created_at: new Date().toISOString(),
+    };
+  },
+
+  login: async (email: string, password: string) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    return {
+      access_token: "mock-jwt-token-" + Date.now(),
+      token_type: "bearer",
+      user: {
+        user_id: "user-123",
+        email,
+        full_name: "Mock User",
+      },
+    };
+  },
+
+  forgotPassword: async (email: string) => {
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    // Mock: Her zaman başarılı döner
+    return {
+      success: true,
+      message: "Şifre sıfırlama bağlantısı e-posta adresinize gönderildi.",
+      email,
+    };
+  },
+
+  resetPassword: async (token: string, newPassword: string) => {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // Mock: Token kontrolü yapmadan başarılı döner
+    return {
+      success: true,
+      message: "Şifreniz başarıyla güncellendi.",
+    };
+  },
+
+  verifyResetToken: async (token: string) => {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    // Mock: Her token geçerli
+    return {
+      valid: true,
+      email: "user@example.com",
+      expires_at: new Date(Date.now() + 3600000).toISOString(),
+    };
+  },
+
   // Projects
   getProjects: (): Project[] => {
     return mockProjects;
@@ -308,6 +361,195 @@ export const mockApi = {
 
   getTemplate: (id: string): Template | undefined => {
     return templates.find((t) => t.id === id);
+  },
+
+  // ========================================
+  // PROJE GÜNCELLEME FONKSİYONLARI
+  // ========================================
+
+  // 1. Proje başlığını güncelle
+  updateProject: async (projectId: string, title: string) => {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    
+    const project = mockProjects.find((p) => p.id === projectId);
+    if (!project) throw new Error("Project not found");
+    
+    project.title = title;
+    project.updated_at = new Date().toISOString();
+    
+    return {
+      id: project.id,
+      title: project.title,
+      updated_at: project.updated_at,
+    };
+  },
+
+  // 2. Genel bilgileri güncelle (A bölümü)
+  updateGeneralInfo: async (
+    projectId: string,
+    generalInfo: {
+      applicant_name: string;
+      research_title: string;
+      advisor_name: string;
+      institution: string;
+    }
+  ) => {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    
+    const project = mockProjects.find((p) => p.id === projectId);
+    if (!project) throw new Error("Project not found");
+    
+    project.general_info = generalInfo;
+    project.updated_at = new Date().toISOString();
+    
+    return {
+      general_info: project.general_info,
+      updated_at: project.updated_at,
+    };
+  },
+
+  // 3. Anahtar kelimeleri güncelle
+  updateKeywords: async (projectId: string, keywords: string) => {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    
+    const project = mockProjects.find((p) => p.id === projectId);
+    if (!project) throw new Error("Project not found");
+    
+    project.keywords = keywords;
+    project.updated_at = new Date().toISOString();
+    
+    return {
+      keywords: project.keywords,
+      updated_at: project.updated_at,
+    };
+  },
+
+  // 4. Bilimsel niteliği güncelle (1.1 ve 1.2)
+  updateScientificMerit: async (
+    projectId: string,
+    scientificMerit: {
+      importance_and_quality: string;
+      aims_and_objectives: string;
+    }
+  ) => {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    
+    const project = mockProjects.find((p) => p.id === projectId);
+    if (!project) throw new Error("Project not found");
+    
+    project.scientific_merit = scientificMerit;
+    project.updated_at = new Date().toISOString();
+    
+    return {
+      scientific_merit: project.scientific_merit,
+      updated_at: project.updated_at,
+    };
+  },
+
+  // 5. Proje yönetimi tablolarını güncelle (3.1, 3.2, 3.3)
+  updateProjectManagement: async (
+    projectId: string,
+    projectManagement: {
+      work_schedule: WorkScheduleRow[];
+      risk_management: RiskManagementRow[];
+      research_facilities: ResearchFacilityRow[];
+    }
+  ) => {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    
+    const project = mockProjects.find((p) => p.id === projectId);
+    if (!project) throw new Error("Project not found");
+    
+    project.project_management = projectManagement;
+    project.updated_at = new Date().toISOString();
+    
+    return {
+      project_management: project.project_management,
+      updated_at: project.updated_at,
+    };
+  },
+
+  // 6. Yaygın etki tablosunu güncelle (4. bölüm)
+  updateWideImpact: async (projectId: string, wideImpact: WideImpactRow[]) => {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    
+    const project = mockProjects.find((p) => p.id === projectId);
+    if (!project) throw new Error("Project not found");
+    
+    project.wide_impact = wideImpact;
+    project.updated_at = new Date().toISOString();
+    
+    return {
+      wide_impact: project.wide_impact,
+      updated_at: project.updated_at,
+    };
+  },
+
+  // 7. Projeyi sil (soft delete)
+  deleteProject: async (projectId: string) => {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    
+    const index = mockProjects.findIndex((p) => p.id === projectId);
+    if (index === -1) throw new Error("Project not found");
+    
+    // Mock: Gerçek silme işlemi yapılabilir veya soft delete için is_deleted flag eklenebilir
+    mockProjects.splice(index, 1);
+    
+    return { success: true };
+  },
+
+  // ========================================
+  // AI FONKSİYONLARI
+  // ========================================
+
+  // 8. AI ile metin revize et
+  reviseAI: async (
+    currentContent: string,
+    revisionPrompt: string,
+    style: string
+  ): Promise<AIGenerateResponse> => {
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    
+    // Mock: Revizyon talebini içeriğe ekle
+    const revised = `${currentContent}\n\n[Revizyon uygulandı: ${revisionPrompt}]\n\nBu metin AI tarafından revize edilmiştir. ${style} tarzında yeniden yazılmıştır.`;
+    
+    return {
+      generated_content: revised,
+    };
+  },
+
+  // ========================================
+  // EXPORT FONKSİYONU
+  // ========================================
+
+  // 9. Projeyi export et (DOCX/PDF)
+  exportProject: async (projectId: string, format: "docx" | "pdf") => {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    
+    const project = mockProjects.find((p) => p.id === projectId);
+    if (!project) throw new Error("Project not found");
+    
+    // Mock: Boş bölüm kontrolü (gerçek implementasyonda yapılacak)
+    const incompleteSections = project.sections?.filter(
+      (s) => !s.final_content || !s.final_content.trim()
+    );
+    
+    if (incompleteSections && incompleteSections.length > 0) {
+      throw new Error(
+        `Tüm bölümler tamamlanmalıdır. ${incompleteSections.length} bölüm eksik.`
+      );
+    }
+    
+    // Mock: Fake download URL oluştur
+    const timestamp = Date.now();
+    const fileUrl = `https://mock-storage.supabase.co/exports/${projectId}-${timestamp}.${format}`;
+    
+    return {
+      file_url: fileUrl,
+      expires_at: new Date(Date.now() + 86400000).toISOString(), // 24 saat
+      format: format,
+      file_size_bytes: 245678,
+    };
   },
 };
 

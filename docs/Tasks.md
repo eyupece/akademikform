@@ -196,7 +196,7 @@ Zaman tanımları:
 - [x] `MVP_UserStories_Ekranlar.md`
 - [x] **Design System Documentation** (Figma integration, color palette, typography)
 - [x] **Component Library** (Button, Card, Badge kullanım örnekleri)
-- [x] `API_Contract.md` (endpointler ve örnek gövdeler) - **Replicate ile oluşturuldu**
+- [x] `API_Contract.md` (endpointler ve örnek gövdeler) - **✅ mockApi.ts'den tam contract oluşturuldu**
 - [ ] `DB_Schema.md` (tablolar ve ilişkiler) - **Arkadaşın yapacak**
 
 ### Orta vade

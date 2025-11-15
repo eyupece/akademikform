@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { mockApi } from "@/lib/mockApi";
 import type { Project, Section } from "@/types";
@@ -32,6 +32,9 @@ export default function EditorPage() {
   
   const projectId = params.projectId as string;
   const templateId = searchParams.get("template");
+
+  // Ref for main content area (sadece içerik alanını scroll etmek için)
+  const mainContentRef = useRef<HTMLDivElement>(null);
 
   const [project, setProject] = useState<Project | null>(null);
   // Her bölüm için ayrı state (sectionId -> state)
@@ -297,13 +300,26 @@ export default function EditorPage() {
     }
   };
 
-  // Bölüme scroll et
+  // Bölüme scroll et (sadece içerik alanını scroll et, header sabit kalsın)
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(`section-${sectionId}`);
-    if (element) {
-      element.scrollIntoView({
+    const container = mainContentRef.current;
+    
+    if (element && container) {
+      // Element'in container içindeki pozisyonunu bul
+      const elementTop = element.offsetTop;
+      // Container'ın yüksekliğini al
+      const containerHeight = container.clientHeight;
+      // Element yüksekliğini al
+      const elementHeight = element.clientHeight;
+      
+      // Element'i ortaya getir (center alignment)
+      const scrollPosition = elementTop - (containerHeight / 2) + (elementHeight / 2);
+      
+      // Smooth scroll
+      container.scrollTo({
+        top: scrollPosition,
         behavior: "smooth",
-        block: "start",
       });
     }
   };
@@ -740,8 +756,18 @@ export default function EditorPage() {
               <button
                 onClick={() => {
                   const element = document.getElementById('general-info-section');
-                  if (element) {
-                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  const container = mainContentRef.current;
+                  
+                  if (element && container) {
+                    const elementTop = element.offsetTop;
+                    const containerHeight = container.clientHeight;
+                    const elementHeight = element.clientHeight;
+                    const scrollPosition = elementTop - (containerHeight / 2) + (elementHeight / 2);
+                    
+                    container.scrollTo({
+                      top: scrollPosition,
+                      behavior: "smooth",
+                    });
                   }
                 }}
                 className="group w-full text-left text-sm text-gray-700 py-2.5 px-4 rounded-xl hover:bg-gradient-to-r hover:from-brand-primary/5 hover:to-brand-secondary/5 cursor-pointer transition-all duration-200 border-2 border-transparent hover:border-brand-primary/20"
@@ -790,7 +816,7 @@ export default function EditorPage() {
         </aside>
 
         {/* Editor Area - Tüm bölümler alt alta */}
-        <main className="flex-1 overflow-y-auto bg-shade-light">
+        <main ref={mainContentRef} className="flex-1 overflow-y-auto bg-shade-light">
           <div className="max-w-7xl mx-auto p-6 space-y-16">
             {/* A. GENEL BİLGİLER */}
             <section id="general-info-section" className="scroll-mt-6 bg-white rounded-2xl shadow-card border-2 border-gray-100 p-8 hover:shadow-xl transition-shadow duration-300">

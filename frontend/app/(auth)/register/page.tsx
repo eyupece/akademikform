@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { mockApi } from "@/lib/mockApi";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -27,11 +28,21 @@ export default function RegisterPage() {
     
     setLoading(true);
 
-    // Mock register - gerçek auth sonra eklenecek
-    setTimeout(() => {
-      console.log("Register:", formData);
+    try {
+      const response = await mockApi.register(
+        formData.email,
+        formData.password,
+        formData.username
+      );
+      console.log("Register successful:", response);
+      // TODO: Token'ı localStorage'a kaydet (login gerekebilir)
       router.push("/dashboard");
-    }, 1000);
+    } catch (error) {
+      console.error("Register error:", error);
+      // TODO: Hata durumunda kullanıcıya bilgi ver
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
