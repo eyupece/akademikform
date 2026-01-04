@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 # Routers
-from routers import health, templates, projects, sections, debug
+from routers import health, templates, projects, sections, debug, ai
 
 app = FastAPI(
     title="AkademikForm API",
@@ -105,6 +105,7 @@ app.include_router(health.router)
 app.include_router(templates.router)
 app.include_router(projects.router)
 app.include_router(sections.router)
+app.include_router(ai.router)  # Generic AI endpoint'leri
 app.include_router(debug.router)  # Debug endpoint'leri (sadece development için)
 
 

@@ -125,8 +125,11 @@ def get_template_sections(template_id: str) -> List[str]:
         "tubitak-2209a": [
             "Projenin Özeti",
             "Araştırma Önerisinin Bilimsel Niteliği",
-            "Projenin Yönetimi",
-            "Projenin Geniş Etkisi"
+            "Yöntem",
+            "Proje Yönetimi",
+            "Araştırma Önerisinin Yaygın Etkisi",
+            "Belirtmek İstediğiniz Diğer Konular",
+            "Kaynakça"
         ],
         "tubitak-1001": [
             "Projenin Özeti",

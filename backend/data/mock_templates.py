@@ -12,7 +12,7 @@ MOCK_TEMPLATES = [
             {
                 "title": "Projenin Özeti",
                 "order": 0,
-                "placeholder": "Projenizin özetini yazın...",
+                "placeholder": "Projenizin özetini yazın (bilimsel nitelik, yöntem, proje yönetimi, yaygın etki)...",
                 "min_words": 25,
                 "max_words": 450
             },
@@ -24,18 +24,39 @@ MOCK_TEMPLATES = [
                 "max_words": 0
             },
             {
-                "title": "Projenin Yönetimi",
+                "title": "Yöntem",
                 "order": 2,
-                "placeholder": "Proje planını ve yönetim stratejisini açıklayın...",
-                "min_words": 100,
-                "max_words": 800
+                "placeholder": "Araştırmada uygulanacak yöntem ve araştırma tekniklerinin, amaç ve hedeflere ulaşmaya ne düzeyde elverişli olduğu ilgili literatüre atıf yapılarak ortaya konulur...",
+                "min_words": 0,
+                "max_words": 0
             },
             {
-                "title": "Projenin Geniş Etkisi",
+                "title": "Proje Yönetimi",
                 "order": 3,
-                "placeholder": "Projenin toplumsal ve bilimsel etkisini açıklayın...",
-                "min_words": 50,
-                "max_words": 500
+                "placeholder": "Bu bölüm 3.1, 3.2 ve 3.3 tablolarından oluşur...",
+                "min_words": 0,
+                "max_words": 0
+            },
+            {
+                "title": "Araştırma Önerisinin Yaygın Etkisi",
+                "order": 4,
+                "placeholder": "Bu bölüm çıktı kategorilerinden oluşur...",
+                "min_words": 0,
+                "max_words": 0
+            },
+            {
+                "title": "Belirtmek İstediğiniz Diğer Konular",
+                "order": 5,
+                "placeholder": "Sadece araştırma önerisinin değerlendirilmesine katkı sağlayabilecek bilgi/veri eklenebilir...",
+                "min_words": 0,
+                "max_words": 0
+            },
+            {
+                "title": "Kaynakça",
+                "order": 6,
+                "placeholder": "Araştırma önerisinde kullandığınız kaynakları yazın...",
+                "min_words": 0,
+                "max_words": 0
             }
         ]
     },

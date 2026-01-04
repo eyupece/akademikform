@@ -28,6 +28,35 @@ Bu dosya, backend'deki tüm endpoint'lerin kısa açıklamalarını içerir.
 
 ---
 
+## 🔐 Auth (Supabase)
+
+### `POST /auth/register` ⚠️ (Supabase)
+**Ne yapar:** Yeni kullanıcı oluşturur (Supabase Auth'e proxy)  
+**Kullanım:** Kayıt formu  
+**Not:** Supabase `auth.signUp()` çağrısına delegasyon yapılacak; backend sadece request'i doğrular.
+
+### `POST /auth/login` ⚠️ (Supabase)
+**Ne yapar:** Kullanıcıyı doğrular, JWT döner  
+**Kullanım:** Login formu  
+**Not:** Supabase `auth.signInWithPassword()`; response'taki access token frontend'e iletilecek.
+
+### `POST /auth/forgot-password` ⚠️ (Supabase)
+**Ne yapar:** Şifre sıfırlama e-postası gönderir  
+**Kullanım:** "Şifremi Unuttum" formu  
+**Not:** Supabase `auth.resetPasswordForEmail()` çağrısı yapılacak.
+
+### `POST /auth/reset-password` ⚠️ (Supabase)
+**Ne yapar:** Kullanıcı token ile yeni şifresini belirler  
+**Kullanım:** Reset sayfası  
+**Not:** Supabase OTP akışına uygun custom endpoint; token Supabase'den doğrulanmalı.
+
+### `GET /auth/verify-reset-token/{token}` ⚠️ (Supabase)
+**Ne yapar:** Reset token'ının geçerliliğini kontrol eder  
+**Kullanım:** Reset sayfası açıldığında  
+**Not:** Supabase OTP doğrulaması yapılır; UI token geçersizse uyarır.
+
+---
+
 ## 📋 Templates (Şablonlar)
 
 ### `GET /api/v1/templates`
@@ -131,6 +160,25 @@ Bu dosya, backend'deki tüm endpoint'lerin kısa açıklamalarını içerir.
 
 ---
 
+## 🤖 Generic AI (Section'dan Bağımsız)
+
+### `POST /api/v1/ai/generate` ✅ (Implement edildi!)
+**Ne yapar:** Section ID'ye ihtiyaç duymadan AI metin üretir  
+**Kullanım:** Wide Impact, Scientific Merit gibi section olmayan alanlar için  
+**Request:** `{"content": "...", "style": "...", "context": {"field_type": "wide_impact", ...}}`  
+**Response:** `{"generated_content": "..."}`  
+**field_type:** `scientific_merit_1_1`, `scientific_merit_1_2`, `wide_impact`  
+**Not:** Google Gemini API ile AI metin üretimi
+
+### `POST /api/v1/ai/revise` ✅ (Implement edildi!)
+**Ne yapar:** Section ID'ye ihtiyaç duymadan mevcut metni revize eder  
+**Kullanım:** Generic revizyon işlemleri için  
+**Request:** `{"current_content": "...", "revision_prompt": "...", "style": "...", "context": {...}}`  
+**Response:** `{"generated_content": "..."}`  
+**Not:** Revizyon talebi (örn: "Daha kısa yaz") ile AI metni yeniden üretir
+
+---
+
 ## 📤 Export (Dışa Aktarma)
 
 ### `POST /api/v1/export` ❌ (Henüz implement edilmedi)
@@ -178,6 +226,11 @@ Bu dosya, backend'deki tüm endpoint'lerin kısa açıklamalarını içerir.
 | `/debug/models` | GET | Model listesi (sadece dev) |
 | `/ready` | GET | Readiness probe (production) |
 | `/live` | GET | Liveness probe (production) |
+| `/auth/register` | POST | Supabase ile kayıt |
+| `/auth/login` | POST | Supabase ile giriş |
+| `/auth/forgot-password` | POST | Şifre sıfırlama e-postası |
+| `/auth/reset-password` | POST | Yeni şifre belirleme |
+| `/auth/verify-reset-token/{token}` | GET | Reset token doğrulama |
 
 ---
 

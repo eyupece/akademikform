@@ -149,6 +149,21 @@ Tüm endpoint'ler bir amaca hizmet ediyor:
 
 ---
 
+## 🗄️ Supabase Şeması Çıktısı (Özet)
+
+- Backend modelleri `docs/DB_Schema.md` dosyasında detaylandırılan Supabase/PostgreSQL şemasına
+  aktarıldı.
+- Temel varlıklar: `projects`, `sections`, `section_revisions`, `project_work_schedule`,
+  `project_risk_management`, `project_research_facilities`, `project_wide_impact`, `project_exports`.
+- Tüm tablolar RLS ile `auth.uid()` bazlı korunacak; kullanıcılar yalnızca kendi projelerini ve
+  bağlı kayıtlarını görebilecek.
+- `ai_requests` ve `project_exports` tabloları AI günlükleri ile export akışındaki backend
+  endpoint'lerini izlemek için kullanılacak.
+- Şema, mock API'deki alanların tamamını saklayacak şekilde tasarlandığından FastAPI katmanı
+  minimum değişiklikle Supabase'e bağlanabilir.
+
+Detaylı sütun tanımları ve örnek SQL komutları için `docs/DB_Schema.md` dosyasına bakılabilir.
+
 ## 📝 ENDPOINTS.md Güncelleme Önerisi
 
 1. **Eksik endpoint ekle:**
