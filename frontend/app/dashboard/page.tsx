@@ -1,16 +1,51 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { mockApi } from "@/lib/mockApi";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 import ProgressBar from "@/components/ui/ProgressBar";
 import { calculateProgress } from "@/lib/sectionHelpers";
+import type { Project } from "@/types";
 
 export default function DashboardPage() {
-  const [projects] = useState(mockApi.getProjects());
+  const router = useRouter();
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [creating, setCreating] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  // Load projects on mount
+  useEffect(() => {
+    const loadProjects = async () => {
+      try {
+        const fetchedProjects = await mockApi.getProjects();
+        setProjects(fetchedProjects);
+      } catch (error) {
+        console.error("Error loading projects:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadProjects();
+  }, []);
+
+  const handleCreateProject = async (templateId: string) => {
+    if (creating) return; // Prevent multiple clicks
+    
+    setCreating(true);
+    try {
+      const project = await mockApi.createProject(templateId, "Yeni Proje");
+      console.log("✅ Proje oluşturuldu:", project.id);
+      router.push(`/editor/${project.id}`);
+    } catch (error) {
+      console.error("❌ Proje oluşturulamadı:", error);
+      alert("Proje oluşturulurken bir hata oluştu!");
+      setCreating(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-shade-light">
@@ -54,12 +89,19 @@ export default function DashboardPage() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Active Template Card */}
-            <Link
-              href="/editor/new?template=tubitak-2209a"
-              className="group relative bg-white rounded-2xl p-8 shadow-card hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-brand-primary overflow-hidden"
+            <button
+              onClick={() => handleCreateProject("tubitak-2209a")}
+              disabled={creating}
+              className="group relative bg-white rounded-2xl p-8 shadow-card hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-brand-primary overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed text-left"
             >
               {/* Gradient Background on Hover */}
               <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/5 to-brand-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              
+              {creating && (
+                <div className="absolute inset-0 bg-white/80 flex items-center justify-center z-20">
+                  <div className="animate-spin rounded-full h-8 w-8 border-4 border-brand-primary border-t-transparent"></div>
+                </div>
+              )}
               
               <div className="relative z-10">
                 {/* Icon */}
@@ -76,13 +118,13 @@ export default function DashboardPage() {
                 
                 {/* Arrow Icon */}
                 <div className="mt-4 flex items-center text-brand-primary font-medium text-sm opacity-0 group-hover:opacity-100 transition-opacity">
-                  Başlat
+                  {creating ? "Oluşturuluyor..." : "Başlat"}
                   <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </div>
               </div>
-            </Link>
+            </button>
 
             {/* Coming Soon Cards */}
             <div className="relative bg-white rounded-2xl p-8 shadow-card border-2 border-gray-100 overflow-hidden">

@@ -21,6 +21,7 @@ export default function EditorComponent({
     extensions: [StarterKit],
     content,
     editable: !readOnly,
+    immediatelyRender: false, // SSR hydration mismatch'i engellemek için
     onUpdate: ({ editor }) => {
       onChange(editor.getText());
     },

@@ -1,4 +1,10 @@
 import type { Project, Section, Revision, Template, AIGenerateResponse, WorkScheduleRow, RiskManagementRow, ResearchFacilityRow, WideImpactRow } from "@/types";
+import apiClient from "./apiClient";
+
+// ========================================
+// API MODE CONFIGURATION
+// ========================================
+const USE_REAL_API = process.env.NEXT_PUBLIC_USE_REAL_API === 'true';
 
 // Mock Templates
 const templates: Template[] = [
@@ -197,15 +203,44 @@ export const mockApi = {
   },
 
   // Projects
-  getProjects: (): Project[] => {
+  getProjects: async (): Promise<Project[]> => {
+    if (USE_REAL_API) {
+      try {
+        const response = await apiClient.projects.getAll() as any;
+        // Backend ProjectList döndürüyor: { projects: [], total: 0, page: 1, limit: 20 }
+        return response.projects || [];
+      } catch (error) {
+        console.error('API Error:', error);
+        return mockProjects;
+      }
+    }
     return mockProjects;
   },
 
-  getProject: (id: string): Project | undefined => {
+  getProject: async (id: string): Promise<Project | undefined> => {
+    if (USE_REAL_API) {
+      try {
+        return await apiClient.projects.getById(id) as Project;
+      } catch (error) {
+        console.error('API Error:', error);
+        return mockProjects.find((p) => p.id === id);
+      }
+    }
     return mockProjects.find((p) => p.id === id);
   },
 
-  createProject: (templateId: string, title: string): Project => {
+  createProject: async (templateId: string, title: string): Promise<Project> => {
+    if (USE_REAL_API) {
+      try {
+        return await apiClient.projects.create({
+          template_id: templateId,
+          title: title,
+        }) as Project;
+      } catch (error) {
+        console.error('API Error:', error);
+        throw error;
+      }
+    }
     const template = templates.find((t) => t.id === templateId);
     if (!template) throw new Error("Template not found");
 
@@ -308,7 +343,17 @@ export const mockApi = {
     return section;
   },
 
-  acceptRevision: (sectionId: string, content: string): Section => {
+  acceptRevision: async (sectionId: string, content: string): Promise<Section> => {
+    if (USE_REAL_API) {
+      try {
+        return await apiClient.sections.accept(sectionId, content) as Section;
+      } catch (error) {
+        console.error('API Error:', error);
+        throw error; // Hata fırlat, fallback yok
+      }
+    }
+    
+    // Mock implementation (sadece USE_REAL_API=false ise)
     const project = mockProjects.find((p) =>
       p.sections?.some((s) => s.id === sectionId)
     );
@@ -341,17 +386,39 @@ export const mockApi = {
     return section?.revisions || [];
   },
 
-  // AI Generate (Mock)
-  generateAI: async (draft: string, style: string): Promise<AIGenerateResponse> => {
-    // Simulate API delay
+  // AI Generate
+  generateAI: async (sectionId: string, draft: string, style: string, context?: any): Promise<AIGenerateResponse> => {
+    if (USE_REAL_API) {
+      try {
+        // Dummy ID kontrolü: scientific-merit- veya wide-impact- ile başlıyorsa generic AI kullan
+        const isDummyId = sectionId.startsWith('scientific-merit-') || sectionId.startsWith('wide-impact-');
+        
+        if (isDummyId) {
+          // Generic AI endpoint kullan
+          return await apiClient.ai.generate({
+            content: draft,
+            style: style,
+            additional_instructions: "",
+            context: context || {},
+          }) as AIGenerateResponse;
+        } else {
+          // Normal section AI endpoint kullan
+          return await apiClient.sections.generate(sectionId, {
+            draft_content: draft,
+            style: style,
+            additional_instructions: "",
+          }) as AIGenerateResponse;
+        }
+      } catch (error) {
+        console.error('AI Generation Error:', error);
+        throw error; // ❌ Artık fallback yok, hata fırlat
+      }
+    }
+    
+    // Mock AI response (sadece USE_REAL_API=false ise)
     await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    // Mock AI response
     const enhanced = `${draft} Bu metin AI tarafından akademik dile dönüştürülmüştür. Bilimsel terminoloji ve formal yapı kullanılmıştır.`;
-
-    return {
-      generated_content: enhanced,
-    };
+    return { generated_content: enhanced };
   },
 
   // Templates
@@ -432,6 +499,16 @@ export const mockApi = {
       aims_and_objectives: string;
     }
   ) => {
+    if (USE_REAL_API) {
+      try {
+        return await apiClient.projects.updateScientificMerit(projectId, scientificMerit);
+      } catch (error) {
+        console.error('API Error:', error);
+        throw error; // Hata fırlat, fallback yok
+      }
+    }
+    
+    // Mock implementation (sadece USE_REAL_API=false ise)
     await new Promise((resolve) => setTimeout(resolve, 500));
     
     const project = mockProjects.find((p) => p.id === projectId);
@@ -471,6 +548,16 @@ export const mockApi = {
 
   // 6. Yaygın etki tablosunu güncelle (4. bölüm)
   updateWideImpact: async (projectId: string, wideImpact: WideImpactRow[]) => {
+    if (USE_REAL_API) {
+      try {
+        return await apiClient.projects.updateWideImpact(projectId, wideImpact);
+      } catch (error) {
+        console.error('API Error:', error);
+        throw error; // Hata fırlat, fallback yok
+      }
+    }
+    
+    // Mock implementation (sadece USE_REAL_API=false ise)
     await new Promise((resolve) => setTimeout(resolve, 500));
     
     const project = mockProjects.find((p) => p.id === projectId);

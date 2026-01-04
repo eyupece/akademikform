@@ -103,18 +103,19 @@ export default function EditorPage() {
 
   // Proje yükleme
   useEffect(() => {
-    let loadedProject: Project | null = null;
+    const loadProject = async () => {
+      let loadedProject: Project | null = null;
 
-    if (projectId === "new" && templateId) {
-      // Yeni proje oluştur - default "Yeni Proje" ismiyle
-      loadedProject = mockApi.createProject(templateId, "Yeni Proje");
-    } else {
-      // Mevcut projeyi yükle
-      loadedProject = mockApi.getProject(projectId) || null;
-    }
+      if (projectId === "new" && templateId) {
+        // Yeni proje oluştur - default "Yeni Proje" ismiyle
+        loadedProject = await mockApi.createProject(templateId, "Yeni Proje");
+      } else {
+        // Mevcut projeyi yükle
+        loadedProject = await mockApi.getProject(projectId) || null;
+      }
 
-    if (loadedProject) {
-      setProject(loadedProject);
+      if (loadedProject) {
+        setProject(loadedProject);
       
       // General info'yu yükle
       if (loadedProject.general_info) {
@@ -167,7 +168,10 @@ export default function EditorPage() {
         };
       });
       setSectionStates(initialStates);
-    }
+      }
+    };
+
+    loadProject();
   }, [projectId, templateId]);
 
   // Proje başlığını düzenle
@@ -236,7 +240,8 @@ export default function EditorPage() {
 
     updateSectionState(sectionId, { loading: true });
     try {
-      const response = await mockApi.generateAI(sectionState.draft, sectionState.styleInput);
+      // ✅ DÜZELTME: section ID'yi ilk parametre olarak ekledik
+      const response = await mockApi.generateAI(sectionId, sectionState.draft, sectionState.styleInput);
       updateSectionState(sectionId, {
         aiSuggestion: response.generated_content,
         viewMode: "split",
@@ -250,17 +255,22 @@ export default function EditorPage() {
   };
 
   // AI önerisini kabul et (bölüm bazlı)
-  const handleAccept = (sectionId: string) => {
+  const handleAccept = async (sectionId: string) => {
     const sectionState = sectionStates[sectionId];
     if (!sectionState || !sectionState.aiSuggestion) return;
 
-    mockApi.acceptRevision(sectionId, sectionState.aiSuggestion);
-    updateSectionState(sectionId, {
-      draft: sectionState.aiSuggestion,
-      aiSuggestion: "",
-      viewMode: "single",
-    });
-    showToast("Revizyon başarıyla kaydedildi!", "success");
+    try {
+      await mockApi.acceptRevision(sectionId, sectionState.aiSuggestion);
+      updateSectionState(sectionId, {
+        draft: sectionState.aiSuggestion,
+        aiSuggestion: "",
+        viewMode: "single",
+      });
+      showToast("Revizyon başarıyla kaydedildi!", "success");
+    } catch (error) {
+      console.error("Accept revision error:", error);
+      showToast("Revizyon kaydedilirken bir hata oluştu. Lütfen tekrar deneyin.", "error");
+    }
   };
 
   // AI önerisini reddet (bölüm bazlı)
@@ -283,7 +293,9 @@ export default function EditorPage() {
       showRevisionInput: false,
     });
     try {
+      // ✅ DÜZELTME: section ID'yi ilk parametre olarak ekledik
       const response = await mockApi.generateAI(
+        sectionId,
         sectionState.draft + "\n\n[Revizyon talebi: " + customPrompt + "]",
         sectionState.styleInput
       );
@@ -372,7 +384,15 @@ export default function EditorPage() {
     setScientificMeritAI((prev) => ({ ...prev, [loadingKey]: true }));
 
     try {
-      const response = await mockApi.generateAI(content, "Akademik, bilimsel ve profesyonel");
+      // Scientific Merit için generic AI kullan
+      const dummyId = field === "importance" ? "scientific-merit-1-1" : "scientific-merit-1-2";
+      const fieldType = field === "importance" ? "scientific_merit_1_1" : "scientific_merit_1_2";
+      const response = await mockApi.generateAI(
+        dummyId,
+        content,
+        "Akademik, bilimsel ve profesyonel",
+        { field_type: fieldType, project_id: projectId }
+      );
       const aiKey = field === "importance" ? "importance_ai" : "aims_ai";
       const viewKey = field === "importance" ? "importance_view" : "aims_view";
       
@@ -389,13 +409,33 @@ export default function EditorPage() {
     }
   };
 
-  const handleAcceptScientificMeritAI = (field: "importance" | "aims") => {
+  const handleAcceptScientificMeritAI = async (field: "importance" | "aims") => {
     const aiContent = field === "importance" 
       ? scientificMeritAI.importance_ai 
       : scientificMeritAI.aims_ai;
     
     const fieldName = field === "importance" ? "importance_and_quality" : "aims_and_objectives";
-    updateScientificMerit(fieldName, aiContent);
+    
+    // Backend'e kaydet (önce backend, sonra local state)
+    if (project) {
+      try {
+        const updatedScientificMerit = {
+          ...scientificMerit,
+          [fieldName]: aiContent,
+        };
+        await mockApi.updateScientificMerit(project.id, updatedScientificMerit);
+        
+        // Backend başarılı olduktan sonra local state'i güncelle
+        updateScientificMerit(fieldName, aiContent);
+      } catch (error) {
+        console.error("Scientific Merit update error:", error);
+        showToast("Kayıt yapılırken bir hata oluştu. Lütfen tekrar deneyin.", "error");
+        return;
+      }
+    } else {
+      // Project yoksa sadece local state'i güncelle
+      updateScientificMerit(fieldName, aiContent);
+    }
     
     const aiKey = field === "importance" ? "importance_ai" : "aims_ai";
     const viewKey = field === "importance" ? "importance_view" : "aims_view";
@@ -438,9 +478,14 @@ export default function EditorPage() {
     }));
 
     try {
+      // Scientific Merit revise için generic AI kullan
+      const dummyId = field === "importance" ? "scientific-merit-1-1" : "scientific-merit-1-2";
+      const fieldType = field === "importance" ? "scientific_merit_1_1" : "scientific_merit_1_2";
       const response = await mockApi.generateAI(
+        dummyId,
         content + "\n\n[Revizyon talebi: " + revisionPrompt + "]",
-        "Akademik, bilimsel ve profesyonel"
+        "Akademik, bilimsel ve profesyonel",
+        { field_type: fieldType, project_id: projectId }
       );
       setScientificMeritAI((prev) => ({
         ...prev,
@@ -518,9 +563,13 @@ export default function EditorPage() {
       }));
 
     try {
+      // Wide Impact için generic AI kullan
+      const dummyId = `wide-impact-${rowId}`;
       const response = await mockApi.generateAI(
-        `Kategori: ${category}\n\nMevcut içerik:\n${userInput || "(Boş)"}\n\n[TÜBİTAK 2209-A projesinin 'Yaygın Etki' bölümü için öneriler oluşturun.]`,
-        "Akademik, bilimsel ve profesyonel"
+        dummyId,
+        `Kategori: ${category}\n\nMevcut içerik:\n${userInput || "(Boş)"}`,
+        "Akademik, bilimsel ve profesyonel",
+        { field_type: "wide_impact", category: category, project_id: projectId }
       );
 
       setWideImpactAI((prev) => ({
@@ -544,10 +593,29 @@ export default function EditorPage() {
   };
 
   // Wide Impact AI önerisi kabul et
-  const handleAcceptWideImpactAI = (rowId: string) => {
+  const handleAcceptWideImpactAI = async (rowId: string) => {
     const aiState = wideImpactAI[rowId];
     if (aiState?.suggestion) {
-      updateWideImpactRow(rowId, aiState.suggestion);
+      // Backend'e kaydet (önce backend, sonra local state)
+      if (project) {
+        try {
+          const updatedWideImpact = wideImpact.map((row) =>
+            row.id === rowId ? { ...row, outputs: aiState.suggestion } : row
+          );
+          await mockApi.updateWideImpact(project.id, updatedWideImpact);
+          
+          // Backend başarılı olduktan sonra local state'i güncelle
+          updateWideImpactRow(rowId, aiState.suggestion);
+        } catch (error) {
+          console.error("Wide Impact update error:", error);
+          showToast("Kayıt yapılırken bir hata oluştu. Lütfen tekrar deneyin.", "error");
+          return;
+        }
+      } else {
+        // Project yoksa sadece local state'i güncelle
+        updateWideImpactRow(rowId, aiState.suggestion);
+      }
+      
       setWideImpactAI((prev) => ({
         ...prev,
         [rowId]: { 
@@ -587,7 +655,10 @@ export default function EditorPage() {
     }));
 
     try {
+      // Wide Impact revise için dummy section ID
+      const dummyId = `wide-impact-${rowId}`;
       const response = await mockApi.generateAI(
+        dummyId,
         `Kategori: ${row.category}\n\nMevcut içerik:\n${row.outputs || "(Boş)"}\n\n[Revizyon talebi: ${revisionPrompt}]`,
         "Akademik, bilimsel ve profesyonel"
       );

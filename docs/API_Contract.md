@@ -687,7 +687,77 @@ Bölümün revizyon geçmişini getirir.
 
 ---
 
-### 5. Export
+### 5. Generic AI
+
+Section ID'ye ihtiyaç duymadan AI metin üretimi ve revizyonu yapar.  
+**Wide Impact**, **Scientific Merit** gibi section olmayan alanlar için kullanılır.
+
+#### POST `/ai/generate`
+Generic AI metin üretimi.
+
+**Request:**
+```json
+{
+  "content": "Robotlar üzerine araştırma yapacağız",
+  "style": "Akademik, bilimsel ve profesyonel",
+  "additional_instructions": "",
+  "context": {
+    "field_type": "wide_impact",
+    "category": "Bilimsel/Akademik Çıktılar",
+    "project_id": "project-uuid"
+  }
+}
+```
+
+**field_type Değerleri:**
+- `scientific_merit_1_1` - Konunun Önemi ve Bilimsel Nitelik
+- `scientific_merit_1_2` - Amaç ve Hedefler
+- `wide_impact` - Yaygın Etki
+
+**Response (200):**
+```json
+{
+  "generated_content": "Bu araştırmada, yapay zeka destekli robotik sistemler üzerine kapsamlı bir inceleme gerçekleştirilecektir..."
+}
+```
+
+**Error Responses:**
+- `400` - Invalid request (content boş)
+- `500` - AI generation error
+
+---
+
+#### POST `/ai/revise`
+Generic AI metin revizyonu.
+
+**Request:**
+```json
+{
+  "current_content": "Bu araştırma robotlar hakkındadır...",
+  "revision_prompt": "Daha akademik ve detaylı yaz",
+  "style": "Akademik, bilimsel ve profesyonel",
+  "context": {
+    "field_type": "wide_impact",
+    "category": "Ekonomik/Ticari/Sosyal Çıktılar",
+    "project_id": "project-uuid"
+  }
+}
+```
+
+**Response (200):**
+```json
+{
+  "generated_content": "Bu araştırma kapsamında, robotik sistemlerin endüstriyel uygulamaları ve sosyo-ekonomik etkileri..."
+}
+```
+
+**Error Responses:**
+- `400` - Invalid request
+- `500` - AI revision error
+
+---
+
+### 6. Export
 
 #### POST `/export`
 Projeyi DOCX veya PDF formatında export eder.
